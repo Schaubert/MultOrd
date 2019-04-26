@@ -1,0 +1,14 @@
+Package: MultOrd
+Type: Package
+Title: Model Multivariate Ordinal Responses Including Response Styles
+Version: 0.1-1
+Date: 2019-04-25
+Author: Gunther Schauberger
+Maintainer: Gunther Schauberger <gunther.schauberger@tum.de>
+Description: In the case of multivariate ordinal responses, parameter estimates can be severly biased if personal response styles are ignored. This packages provides methods to account for personal responjse styles and to explain the effects of covariates on the response style. The method is implemented both for the multivariate cumulative model and the multivariate adjacent categories model.
+License: GPL (>= 2)
+Imports:
+    Rcpp (>= 0.12.4), statmod
+LinkingTo: Rcpp, RcppArmadillo
+SystemRequirements: C++11
+RoxygenNote: 6.1.1
