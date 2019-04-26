@@ -16,6 +16,12 @@ correspond to low frequencies or low intensitites of the respective complaint an
 \item{Restless feet}{Do you notice that your feet are restless?}
 \item{Twitching eyes}{Do you notice unvoluntary twitching of your eyes?}
 \item{Twitching mouth}{Do you notice unvoluntary twitching of your mouth?}
+\item{Gender}{Gender of the participant}
+\item{Household}{Does participant live alone in a houshold or together with others?}
+\item{WestEast}{is the participant from East Germany (former GDR) or West Germany?}
+\item{Age}{Age in 15 categories, treated as continuous variable}
+\item{Abitur}{Does the participant have Abitur (a-levels)?}
+\item{Income}{Income in 11 categories, treated as continuous variable}
  }}
 \source{
 ZPID (2013). PsychData of the Leibniz Institute for Psychology Information ZPID. Trier: Center for Research Data in Psychology.
@@ -29,19 +35,19 @@ standardization sample of the Freiburg Complaint Checklist.
 }
 \examples{
 \dontrun{
-data(confidence)
+data(tenseness)
 
 ## create a small subset of the data to speed up calculations
 set.seed(1860)
-confidence <- confidence[sample(1:nrow(confidence), 300),]
+tenseness <- tenseness[sample(1:nrow(tenseness), 300),]
 
 ## scale all metric variables to get comparable parameter estimates
-confidence$age <- scale(confidence$age)
-confidence$income <- scale(confidence$income)
+tenseness$Age <- scale(tenseness$Age)
+tenseness$Income <- scale(tenseness$Income)
 
 ## two formulas, one without and one with explanatory variables (gender and age)
-f.conf0 <- as.formula(paste("cbind(",paste(names(confidence)[1:4],collapse=","),") ~ 1"))
-f.conf1 <- as.formula(paste("cbind(",paste(names(confidence)[1:4],collapse=","),") ~ gender + age"))
+f.tense0 <- as.formula(paste("cbind(",paste(names(tenseness)[1:4],collapse=","),") ~ 1"))
+f.tense1 <- as.formula(paste("cbind(",paste(names(tenseness)[1:4],collapse=","),") ~ Gender + Age"))
 
 
 
@@ -50,23 +56,23 @@ f.conf1 <- as.formula(paste("cbind(",paste(names(confidence)[1:4],collapse=","),
 ####
 
 ## Multivariate adjacent categories model, without response style, without explanatory variables
-m.conf0 <- multord(f.conf0, data = confidence, control = ctrl.multord(RS = FALSE))
-m.conf0
+m.tense0 <- multord(f.tense0, data = tenseness, control = ctrl.multord(RS = FALSE))
+m.tense0
 
 ## Multivariate adjacent categories model, with response style as a random effect, without explanatory variables
-m.conf1 <- multord(f.conf0, data = confidence)
-m.conf1
+m.tense1 <- multord(f.tense0, data = tenseness)
+m.tense1
 
 ## Multivariate adjacent categories model, with response style as a random effect, 
 ## without explanatory variables for response style BUT for location
-m.conf2 <- multord(f.conf1, data = confidence, control = ctrl.multord(XforRS = FALSE))
-m.conf2
+m.tense2 <- multord(f.tense1, data = tenseness, control = ctrl.multord(XforRS = FALSE))
+m.tense2
 
 ## Multivariate adjacent categories model, with response style as a random effect, with explanatory variables for location AND response style
-m.conf3 <- multord(f.conf1, data = confidence)
-m.conf3
+m.tense3 <- multord(f.tense1, data = tenseness)
+m.tense3
 
-plot(m.conf3)
+plot(m.tense3)
 
 
 
@@ -75,28 +81,23 @@ plot(m.conf3)
 ####
 
 ## Multivariate cumulative model, without response style, without explanatory variables
-m.conf0.cumul <- multord(f.conf0, data = confidence, control = ctrl.multord(RS = FALSE), model = "cumulative")
-m.conf0.cumul
+m.tense0.cumul <- multord(f.tense0, data = tenseness, control = ctrl.multord(RS = FALSE), model = "cumulative")
+m.tense0.cumul
 
 ## Multivariate cumulative model, with response style as a random effect, without explanatory variables
-m.conf1.cumul <- multord(f.conf0, data = confidence, model = "cumulative")
-m.conf1.cumul
+m.tense1.cumul <- multord(f.tense0, data = tenseness, model = "cumulative")
+m.tense1.cumul
 
 ## Multivariate cumulative model, with response style as a random effect, 
 ## without explanatory variables for response style BUT for location
-m.conf2.cumul <- multord(f.conf1, data = confidence, control = ctrl.multord(XforRS = FALSE), model = "cumulative")
-m.conf2.cumul
+m.tense2.cumul <- multord(f.tense1, data = tenseness, control = ctrl.multord(XforRS = FALSE), model = "cumulative")
+m.tense2.cumul
 
 ## Multivariate cumulative model, with response style as a random effect, with explanatory variables for location AND response style
-m.conf3.cumul <- multord(f.conf1, data = confidence, model = "cumulative")
-m.conf3.cumul
+m.tense3.cumul <- multord(f.tense1, data = tenseness, model = "cumulative")
+m.tense3.cumul
 
-plot(m.conf3.cumul)
+plot(m.tense3.cumul)
 }
-}
-\references{
-Tutz, Gerhard, Schauberger, Gunther and Berger, Moritz (2016): 
-Response Styles in the Partial Credit Model, \emph{Department of Statistics, LMU
-Munich}, Technical Report 196
 }
 \keyword{datasets}
