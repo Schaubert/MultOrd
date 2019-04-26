@@ -75,7 +75,7 @@ m.conf1
 
 ## Multivariate adjacent categories model, with response style as a random effect, 
 ## without explanatory variables for response style BUT for location
-m.conf2 <- multord(f.conf1, data = confidence, control = ctrl.multord(XRS = FALSE))
+m.conf2 <- multord(f.conf1, data = confidence, control = ctrl.multord(XforRS = FALSE))
 m.conf2
 
 ## Multivariate adjacent categories model, with response style as a random effect, with explanatory variables for location AND response style
@@ -100,7 +100,7 @@ m.conf1.cumul
 
 ## Multivariate cumulative model, with response style as a random effect, 
 ## without explanatory variables for response style BUT for location
-m.conf2.cumul <- multord(f.conf1, data = confidence, control = ctrl.multord(XRS = FALSE), model = "cumulative")
+m.conf2.cumul <- multord(f.conf1, data = confidence, control = ctrl.multord(XforRS = FALSE), model = "cumulative")
 m.conf2.cumul
 
 ## Multivariate cumulative model, with response style as a random effect, with explanatory variables for location AND response style

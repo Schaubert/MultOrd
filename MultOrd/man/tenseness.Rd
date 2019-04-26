@@ -29,18 +29,69 @@ standardization sample of the Freiburg Complaint Checklist.
 }
 \examples{
 \dontrun{
-data(tenseness)
+data(confidence)
 
+## create a small subset of the data to speed up calculations
 set.seed(1860)
-samples <- sample(1:nrow(tenseness), 300)
-tense_small <- tenseness[samples,]
+confidence <- confidence[sample(1:nrow(confidence), 300),]
 
-m_small <- PCMRS(tense_small, cores = 25)
-m_small
-plot(m_small)
+## scale all metric variables to get comparable parameter estimates
+confidence$age <- scale(confidence$age)
+confidence$income <- scale(confidence$income)
 
-persons <- person.posterior(m_small, cores = 25)
-plot(jitter(persons,100))
+## two formulas, one without and one with explanatory variables (gender and age)
+f.conf0 <- as.formula(paste("cbind(",paste(names(confidence)[1:4],collapse=","),") ~ 1"))
+f.conf1 <- as.formula(paste("cbind(",paste(names(confidence)[1:4],collapse=","),") ~ gender + age"))
+
+
+
+####
+## Adjacent Categories Models
+####
+
+## Multivariate adjacent categories model, without response style, without explanatory variables
+m.conf0 <- multord(f.conf0, data = confidence, control = ctrl.multord(RS = FALSE))
+m.conf0
+
+## Multivariate adjacent categories model, with response style as a random effect, without explanatory variables
+m.conf1 <- multord(f.conf0, data = confidence)
+m.conf1
+
+## Multivariate adjacent categories model, with response style as a random effect, 
+## without explanatory variables for response style BUT for location
+m.conf2 <- multord(f.conf1, data = confidence, control = ctrl.multord(XforRS = FALSE))
+m.conf2
+
+## Multivariate adjacent categories model, with response style as a random effect, with explanatory variables for location AND response style
+m.conf3 <- multord(f.conf1, data = confidence)
+m.conf3
+
+plot(m.conf3)
+
+
+
+####
+## Cumulative Models
+####
+
+## Multivariate cumulative model, without response style, without explanatory variables
+m.conf0.cumul <- multord(f.conf0, data = confidence, control = ctrl.multord(RS = FALSE), model = "cumulative")
+m.conf0.cumul
+
+## Multivariate cumulative model, with response style as a random effect, without explanatory variables
+m.conf1.cumul <- multord(f.conf0, data = confidence, model = "cumulative")
+m.conf1.cumul
+
+## Multivariate cumulative model, with response style as a random effect, 
+## without explanatory variables for response style BUT for location
+m.conf2.cumul <- multord(f.conf1, data = confidence, control = ctrl.multord(XforRS = FALSE), model = "cumulative")
+m.conf2.cumul
+
+## Multivariate cumulative model, with response style as a random effect, with explanatory variables for location AND response style
+m.conf3.cumul <- multord(f.conf1, data = confidence, model = "cumulative")
+m.conf3.cumul
+
+plot(m.conf3.cumul)
 }
 }
 \references{
