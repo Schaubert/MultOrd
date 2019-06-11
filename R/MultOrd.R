@@ -351,7 +351,6 @@ multord <-
     }
     
     
-    
     ## get nodes and weights for Gauss-Hermite quadrature
     her_poly <- gauss.quad(control$Q, "hermite")
     nodes <- her_poly$nodes
