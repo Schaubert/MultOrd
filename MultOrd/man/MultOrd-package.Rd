@@ -7,8 +7,7 @@
 \description{
 A model for multivariate ordinal responses. The response is modelled 
 using a mixed model approach that is also capable of the inclusion 
-of response style effects of the respondents.
-}
+of response style effects of the respondents.}
 \examples{
 \dontrun{
 data(tenseness)
