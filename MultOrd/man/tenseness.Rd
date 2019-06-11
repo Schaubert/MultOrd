@@ -16,6 +16,12 @@ correspond to low frequencies or low intensitites of the respective complaint an
 \item{Restless feet}{Do you notice that your feet are restless?}
 \item{Twitching eyes}{Do you notice unvoluntary twitching of your eyes?}
 \item{Twitching mouth}{Do you notice unvoluntary twitching of your mouth?}
+\item{Gender}{Gender of the participant}
+\item{Household}{Does participant live alone in a houshold or together with others?}
+\item{WestEast}{is the participant from East Germany (former GDR) or West Germany?}
+\item{Age}{Age in 15 categories, treated as continuous variable}
+\item{Abitur}{Does the participant have Abitur (a-levels)?}
+\item{Income}{Income in 11 categories, treated as continuous variable}
  }}
 \source{
 ZPID (2013). PsychData of the Leibniz Institute for Psychology Information ZPID. Trier: Center for Research Data in Psychology.
@@ -31,21 +37,67 @@ standardization sample of the Freiburg Complaint Checklist.
 \dontrun{
 data(tenseness)
 
+## create a small subset of the data to speed up calculations
 set.seed(1860)
-samples <- sample(1:nrow(tenseness), 300)
-tense_small <- tenseness[samples,]
+tenseness <- tenseness[sample(1:nrow(tenseness), 300),]
 
-m_small <- PCMRS(tense_small, cores = 25)
-m_small
-plot(m_small)
+## scale all metric variables to get comparable parameter estimates
+tenseness$Age <- scale(tenseness$Age)
+tenseness$Income <- scale(tenseness$Income)
 
-persons <- person.posterior(m_small, cores = 25)
-plot(jitter(persons,100))
+## two formulas, one without and one with explanatory variables (gender and age)
+f.tense0 <- as.formula(paste("cbind(",paste(names(tenseness)[1:4],collapse=","),") ~ 1"))
+f.tense1 <- as.formula(paste("cbind(",paste(names(tenseness)[1:4],collapse=","),") ~ Gender + Age"))
+
+
+
+####
+## Adjacent Categories Models
+####
+
+## Multivariate adjacent categories model, without response style, without explanatory variables
+m.tense0 <- multord(f.tense0, data = tenseness, control = ctrl.multord(RS = FALSE))
+m.tense0
+
+## Multivariate adjacent categories model, with response style as a random effect, without explanatory variables
+m.tense1 <- multord(f.tense0, data = tenseness)
+m.tense1
+
+## Multivariate adjacent categories model, with response style as a random effect, 
+## without explanatory variables for response style BUT for location
+m.tense2 <- multord(f.tense1, data = tenseness, control = ctrl.multord(XforRS = FALSE))
+m.tense2
+
+## Multivariate adjacent categories model, with response style as a random effect, with explanatory variables for location AND response style
+m.tense3 <- multord(f.tense1, data = tenseness)
+m.tense3
+
+plot(m.tense3)
+
+
+
+####
+## Cumulative Models
+####
+
+## Multivariate cumulative model, without response style, without explanatory variables
+m.tense0.cumul <- multord(f.tense0, data = tenseness, control = ctrl.multord(RS = FALSE), model = "cumulative")
+m.tense0.cumul
+
+## Multivariate cumulative model, with response style as a random effect, without explanatory variables
+m.tense1.cumul <- multord(f.tense0, data = tenseness, model = "cumulative")
+m.tense1.cumul
+
+## Multivariate cumulative model, with response style as a random effect, 
+## without explanatory variables for response style BUT for location
+m.tense2.cumul <- multord(f.tense1, data = tenseness, control = ctrl.multord(XforRS = FALSE), model = "cumulative")
+m.tense2.cumul
+
+## Multivariate cumulative model, with response style as a random effect, with explanatory variables for location AND response style
+m.tense3.cumul <- multord(f.tense1, data = tenseness, model = "cumulative")
+m.tense3.cumul
+
+plot(m.tense3.cumul)
 }
-}
-\references{
-Tutz, Gerhard, Schauberger, Gunther and Berger, Moritz (2016): 
-Response Styles in the Partial Credit Model, \emph{Department of Statistics, LMU
-Munich}, Technical Report 196
 }
 \keyword{datasets}

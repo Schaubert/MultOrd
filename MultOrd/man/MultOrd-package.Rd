@@ -10,42 +10,70 @@ using a mixed model approach that is also capable of the inclusion
 of response style effects of the respondents.
 }
 \examples{
-\dontshow{
-k <- 4; n <- 80; I <- 4
-set.seed(1860)
-Y <- as.data.frame(matrix(sample(1:k, I*n, TRUE),nrow = n))
-Y <- data.frame(lapply(Y, as.ordered))
-
-mini.ex <- PCMRS(Y, cores = 2)
-mini.ex
-}
 \dontrun{
-################################################
-## Small example to illustrate model and person estimation
-################################################
-
 data(tenseness)
 
+## create a small subset of the data to speed up calculations
 set.seed(1860)
-samples <- sample(1:nrow(tenseness), 100)
-tense_small <- tenseness[samples,1:4]
+tenseness <- tenseness[sample(1:nrow(tenseness), 300),]
 
-m_small <- PCMRS(tense_small, cores = 2)
-m_small
-plot(m_small)
+## scale all metric variables to get comparable parameter estimates
+tenseness$Age <- scale(tenseness$Age)
+tenseness$Income <- scale(tenseness$Income)
 
-persons <- person.posterior(m_small, cores = 2)
-plot(jitter(persons,100))
+## two formulas, one without and one with explanatory variables (gender and age)
+f.tense0 <- as.formula(paste("cbind(",paste(names(tenseness)[1:4],collapse=","),") ~ 1"))
+f.tense1 <- as.formula(paste("cbind(",paste(names(tenseness)[1:4],collapse=","),") ~ Gender + Age"))
 
-################################################
-## Example from Tutz et al. 2017:
-################################################
 
-data(emotion)
-m.emotion <- PCMRS(emotion)
-m.emotion
 
-plot(m.emotion)
+####
+## Adjacent Categories Models
+####
+
+## Multivariate adjacent categories model, without response style, without explanatory variables
+m.tense0 <- multord(f.tense0, data = tenseness, control = ctrl.multord(RS = FALSE))
+m.tense0
+
+## Multivariate adjacent categories model, with response style as a random effect, without explanatory variables
+m.tense1 <- multord(f.tense0, data = tenseness)
+m.tense1
+
+## Multivariate adjacent categories model, with response style as a random effect, 
+## without explanatory variables for response style BUT for location
+m.tense2 <- multord(f.tense1, data = tenseness, control = ctrl.multord(XforRS = FALSE))
+m.tense2
+
+## Multivariate adjacent categories model, with response style as a random effect, with explanatory variables for location AND response style
+m.tense3 <- multord(f.tense1, data = tenseness)
+m.tense3
+
+plot(m.tense3)
+
+
+
+####
+## Cumulative Models
+####
+
+## Multivariate cumulative model, without response style, without explanatory variables
+m.tense0.cumul <- multord(f.tense0, data = tenseness, control = ctrl.multord(RS = FALSE), model = "cumulative")
+m.tense0.cumul
+
+## Multivariate cumulative model, with response style as a random effect, without explanatory variables
+m.tense1.cumul <- multord(f.tense0, data = tenseness, model = "cumulative")
+m.tense1.cumul
+
+## Multivariate cumulative model, with response style as a random effect, 
+## without explanatory variables for response style BUT for location
+m.tense2.cumul <- multord(f.tense1, data = tenseness, control = ctrl.multord(XforRS = FALSE), model = "cumulative")
+m.tense2.cumul
+
+## Multivariate cumulative model, with response style as a random effect, with explanatory variables for location AND response style
+m.tense3.cumul <- multord(f.tense1, data = tenseness, model = "cumulative")
+m.tense3.cumul
+
+plot(m.tense3.cumul)
 }
 }
 \seealso{
