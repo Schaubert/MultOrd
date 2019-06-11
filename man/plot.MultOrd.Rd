@@ -13,8 +13,8 @@
 
 \item{...}{Further plot arguments.}
 
-\item{KI.factor}{Argument that helps to control the appearance (the width) of the stars that represent the confidence intervals of both 
-paraemters (location and response style) corresponding to one covariate.}
+\item{CI.factor}{Argument that helps to control the appearance (the width) of the stars that represent the confidence intervals of both 
+parameters (location and response style) corresponding to one covariate.}
 }
 \description{
 Plot function for a \code{MultOrd} object. Plots show coefficients of the explanatory variables, both with repect to location and response styles.

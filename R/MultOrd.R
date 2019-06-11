@@ -100,9 +100,9 @@ ctrl.multord <-
            Q = 10,
            cores = 5,
            lambda = 1e-2) {
+    
     thresholds <- match.arg(thresholds.acat)
     opt.method = match.arg(opt.method)
-    
     rs.scaled  <-  TRUE
     
     ret.list <-

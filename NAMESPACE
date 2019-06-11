@@ -1,13 +1,10 @@
 useDynLib(MultOrd, .registration = TRUE)
 
-S3method(print, MultOrd)
-
-exportClasses("MultOrd")
-
-export(multord, ctrl.multord)
-
-
 importFrom(statmod, gauss.quad)
 importFrom(Rcpp, evalCpp)
 
+exportClasses("MultOrd")
+export(multord, ctrl.multord)
+
 S3method(plot, MultOrd)
+S3method(print, MultOrd)

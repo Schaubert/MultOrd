@@ -10,7 +10,6 @@
 #include <omp.h>
 #include <iostream>
 
-
 using namespace Rcpp;
 using namespace arma;
 
@@ -929,4 +928,3 @@ double loglikMO_cumul_noRS(arma::vec alpha,
   
   return (fx);
 }
-

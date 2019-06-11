@@ -4,7 +4,7 @@
 \name{tenseness}
 \alias{tenseness}
 \title{Tenseness data from the Freiburg Complaint Checklist (tenseness)}
-\format{A data frame containing data from the Freiburg Complaint Checklist with 2042 observations. 
+\format{A data frame containing data from the Freiburg Complaint Checklist with 1847 observations. 
 All items refer to the scale \emph{Tenseness} and are measured on a 5-point Likert scale where low numbers 
 correspond to low frequencies or low intensitites of the respective complaint and vice versa. 
 \describe{ 
@@ -29,9 +29,9 @@ ZPID (2013). PsychData of the Leibniz Institute for Psychology Information ZPID.
 Fahrenberg, J. (2010). Freiburg Complaint Checklist [Freiburger Beschwerdenliste (FBL)]. Goettingen, Hogrefe.
 }
 \description{
-Data from the Freiburg Complaint Checklist. 
-The data contain all 8 items corresponding to the scale \emph{Tenseness} for 2042 participants of the 
-standardization sample of the Freiburg Complaint Checklist.
+Data from the Freiburg Complaint Checklist. The data contain all 8 items corresponding to the scale 
+\emph{Tenseness} for 1847 participants of the standardization sample of the Freiburg Complaint Checklist. 
+Additionally, several person characteristics are available.
 }
 \examples{
 \dontrun{
